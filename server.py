@@ -1,35 +1,30 @@
 import os
-from pathlib import Path
 from typing import Optional
 import tushare as ts
-from mcp.server.fastmcp import FastMCP, Context
-from dotenv import load_dotenv, set_key
+from fastmcp import FastMCP
 import pandas as pd
 
 # 创建MCP服务器实例
 mcp = FastMCP("Tushare Stock Info")
 
-# 环境变量文件路径
-ENV_FILE = Path.home() / ".tushare_mcp" / ".env"
-
-def init_env_file():
-    """初始化环境变量文件"""
-    ENV_FILE.parent.mkdir(parents=True, exist_ok=True)
-    if not ENV_FILE.exists():
-        ENV_FILE.touch()
-    load_dotenv(ENV_FILE)
-
 def get_tushare_token() -> Optional[str]:
     """获取Tushare token"""
-    init_env_file()
     return os.getenv("TUSHARE_TOKEN")
 
 def set_tushare_token(token: str):
     """设置Tushare token"""
-    init_env_file()
-    set_key(ENV_FILE, "TUSHARE_TOKEN", token)
-    # 初始化tushare
+    os.environ["TUSHARE_TOKEN"] = token
     ts.set_token(token)
+
+@mcp.tool()
+def list_tools() -> str:
+    """列出所有可用的工具"""
+    return """可用工具列表：
+1. setup_tushare_token(token: str) - 设置Tushare API token
+2. check_token_status() - 检查token状态
+3. get_stock_basic_info(ts_code="", name="") - 获取股票基本信息
+4. search_stocks(keyword: str) - 搜索股票
+5. get_income_statement(ts_code, start_date="", end_date="", report_type="1") - 获取利润表数据"""
 
 @mcp.prompt()
 def configure_token() -> str:
