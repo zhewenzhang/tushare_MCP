@@ -4,16 +4,22 @@ FROM python:3.10-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
+    libffi-dev \
+    libc-dev \
+    make \
     && rm -rf /var/lib/apt/lists/*
 
 # 设置工作目录
 WORKDIR /app
 
-# 复制项目文件
-COPY . .
+# 复制requirements.txt
+COPY requirements.txt .
 
-# 安装依赖
+# 安装Python依赖
 RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制其余项目文件
+COPY . .
 
 # 设置环境变量
 ENV PYTHONUNBUFFERED=1
