@@ -1,0 +1,25 @@
+version: 1
+
+build:
+  dockerfile: Dockerfile
+  context: .
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      tushare_token:
+        type: string
+        description: "Tushare API token"
+    required: ["tushare_token"]
+  commandFunction: |
+    function getCommand(config) {
+      return {
+        command: "python",
+        args: ["server.py"],
+        env: {
+          "TUSHARE_TOKEN": config.tushare_token
+        }
+      };
+    } 
