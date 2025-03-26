@@ -1,84 +1,165 @@
 # Tushare MCP Server
 
-这是一个基于MCP (Model Context Protocol)的Tushare数据查询服务器，可以让您方便地通过AI助手查询股票基本信息。
+<div align="center">
 
-## 功能特点
+基于 Model Context Protocol (MCP) 的智能股票数据助手
 
-- Token配置和验证
-- 股票基本信息查询
-- 股票搜索功能
-- 安全的token存储
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
 
-## 安装
+</div>
 
-1. 确保您已安装Python 3.8或更高版本
-2. 克隆此仓库
-3. 安装依赖：
+## 🚀 核心功能
+
+### 1. 股票基础信息查询
+- 支持通过股票代码（如：000001.SZ）精确查询
+- 支持通过股票名称（如：平安银行）模糊查询
+- 返回信息包含：
+  - 股票代码和名称
+  - 所属行业和地区
+  - 上市日期
+  - 市场类型
+  - 交易状态
+
+### 2. 智能股票搜索
+- 支持模糊关键词搜索
+- 同时匹配股票代码和名称
+- 支持行业关键词搜索（如："新能源"、"科技"）
+- 返回匹配度最高的股票列表
+
+### 3. 财务报表分析
+- 支持查询上市公司利润表数据
+- 灵活的时间范围查询（年报、季报、半年报）
+- 多种报表类型支持（合并报表、母公司报表等）
+- 主要指标一目了然：
+  - 每股收益
+  - 营业收入和成本
+  - 期间费用
+  - 利润指标
+- 支持历史数据对比分析
+
+### 4. 安全的Token管理
+- 交互式Token配置流程
+- 本地安全存储（加密保存）
+- Token有效性自动验证
+- 定期Token状态检查
+
+## 🎯 使用场景
+
+1. **投资研究**
+   ```
+   "帮我查找所有新能源相关的股票"
+   "查询比亚迪的基本信息"
+   "获取平安银行2023年的利润表"
+   ```
+
+2. **财务分析**
+   ```
+   "查看腾讯控股最新一期合并报表"
+   "对比阿里巴巴近三年的利润变化"
+   "分析小米集团的季度利润趋势"
+   ```
+
+3. **行业分析**
+   ```
+   "列出所有医药行业的股票"
+   "查找深圳地区的科技公司"
+   ```
+
+4. **报表查询**
+   ```
+   "查询平安银行2023年第一季度的利润表"
+   "获取比亚迪的母公司报表"
+   "查看茅台近5年的年度利润表"
+   ```
+
+## 🛠️ 技术特点
+
+- 基于MCP协议，支持与Claude等AI助手自然对话
+- 实时连接Tushare Pro数据源
+- 智能错误处理和提示
+- 支持并发请求处理
+- 数据缓存优化
+
+## 📦 安装说明
+
+### 环境要求
+- Python 3.8+
+- Tushare Pro账号和API Token
+
+### 快速开始
+
+1. 安装包
 ```bash
+git clone https://github.com/zhewenzhang/tushare_MCP.git
+cd tushare_MCP
 pip install -r requirements.txt
 ```
 
-## 使用方法
-
-1. 运行服务器：
+2. 启动服务
 ```bash
 python server.py
 ```
 
-2. 在Claude Desktop中安装此服务器：
+3. 在Claude中安装
 ```bash
 mcp install server.py
 ```
 
-3. 首次使用时，您需要配置Tushare token：
-   - 访问 https://tushare.pro/user/token 获取您的token
-   - 使用configure_token提示来设置token
-   - 使用check_token_status工具验证token是否配置成功
+## 🔑 首次配置
 
-## 可用工具
+1. **获取Token**
+   - 访问 [Tushare Token页面](https://tushare.pro/user/token)
+   - 登录获取API Token
 
-1. `setup_tushare_token(token: str)`
-   - 设置Tushare API token
-   - 参数：token - Tushare API token字符串
+2. **配置Token**
+   ```
+   对Claude说：请帮我配置Tushare token
+   ```
 
-2. `check_token_status()`
-   - 检查当前token的配置状态
+3. **验证配置**
+   ```
+   对Claude说：请检查token状态
+   ```
 
-3. `get_stock_basic_info(ts_code: str = "", name: str = "")`
-   - 获取股票的基本信息
-   - 参数：
-     - ts_code: 股票代码（如：000001.SZ）
-     - name: 股票名称（如：平安银行）
+## 📚 API参考
 
-4. `search_stocks(keyword: str)`
-   - 搜索股票
-   - 参数：
-     - keyword: 搜索关键词（可以是股票代码或名称的一部分）
+### 工具函数
 
-## 提示模板
-
-1. `configure_token`
-   - 引导用户配置Tushare token的交互式提示
-
-## 安全说明
-
-- token存储在用户主目录下的.tushare_mcp/.env文件中
-- 使用python-dotenv进行安全的环境变量管理
-- token不会被暴露在代码或日志中
-
-## 示例用法
-
-1. 配置token：
-```
-请使用configure_token提示来设置您的token
+1. **股票查询**
+```python
+get_stock_basic_info(ts_code="", name="")
+# 示例：get_stock_basic_info(ts_code="000001.SZ")
 ```
 
-2. 查询股票信息：
-```
-请帮我查询平安银行的基本信息
+2. **股票搜索**
+```python
+search_stocks(keyword="")
+# 示例：search_stocks(keyword="新能源")
 ```
 
-3. 搜索股票：
+3. **利润表查询**
+```python
+get_income_statement(ts_code="", start_date="", end_date="", report_type="1")
+# 示例：get_income_statement(ts_code="000001.SZ", start_date="20230101", end_date="20231231")
 ```
-请帮我搜索包含"科技"的股票
-``` 
+
+4. **Token管理**
+```python
+setup_tushare_token(token="")
+check_token_status()
+```
+
+## 🔒 数据安全
+
+- Token存储：用户主目录下的`.tushare_mcp/.env`
+- 环境变量：使用python-dotenv安全管理
+- 数据传输：HTTPS加密
+
+## 🤝 贡献指南
+
+欢迎提交Issue和Pull Request！
+
+## 📄 开源协议
+
+MIT License - 详见 [LICENSE](LICENSE) 文件 
