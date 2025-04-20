@@ -150,6 +150,25 @@ setup_tushare_token(token="")
 check_token_status()
 ```
 
+5. **非claude客户端使用**
+参考如下的JSON进行配置即可，可以使用cursor，cherry studio 等支持mcp的其他客户端
+```json
+{
+  "mcpServers": {
+    "tushare": {
+      "name": "tushare",
+      "type": "stdio",
+      "isActive": true,
+      "command": "mcp",
+      "args": [
+        "run",
+        "D:\\code\\mcps\\tushare_MCP\\server.py"
+      ]
+    }
+  }
+}
+```
+
 ## 🔒 数据安全
 
 - Token存储：用户主目录下的`.tushare_mcp/.env`
