@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/zhewenzhang-tushare-mcp-badge.png)](https://mseep.ai/app/zhewenzhang-tushare-mcp)
+
 # Tushare MCP Server
 
 <div align="center">
