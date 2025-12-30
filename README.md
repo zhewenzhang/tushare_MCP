@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/zhewenzhang-tushare-mcp-badge.png)](https://mseep.ai/app/zhewenzhang-tushare-mcp)
+
 # Tushare MCP Server
 
 基于 MCP (Model Context Protocol) 的 Tushare 金融数据服务器，提供 52 个专业金融数据分析工具。
